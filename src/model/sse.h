@@ -88,7 +88,7 @@ class SSENL
   public:
     int tscale,xscale;
     uint16_t p_quant;
-    SSENL(int scale=myDomain.max)
+    SSENL(int scale=myDomain.fmax)
     :tscale(scale),xscale((2*tscale)/(N-1))
     {
       if (xscale==0) xscale=1;
@@ -102,7 +102,7 @@ class SSENL
     };
     int Predict(int p1)
     {
-       int pq=(std::min)(2*tscale,(std::max)(0,myDomain.Fwd(p1)+tscale));
+       int pq=std::clamp(myDomain.Fwd(p1)+tscale,0,2*tscale);
 
        p_quant=pq/xscale;
        int p_mod=pq-(p_quant*xscale); //%xscale;

@@ -4,36 +4,30 @@
 #include "../global.h"
 #include <cmath>
 
-static class LogDomain {
+class LogDomain {
   public:
     static constexpr int scale=256;
     static constexpr int dbits=12;
     static constexpr int dmin=-2047;
     static constexpr int dmax=2047;
     static constexpr int dscale=dmax-dmin+1;
-    int min,max;
+    int fmin,fmax;
     LogDomain()
     {
       for (int i=0;i<PSCALE;i++)
       {
         double f=std::max(i,1)/(double)PSCALE;
         double q=std::log(f / (1.0-f))*scale;
-        FwdTbl[i]=std::round(q);
+        FwdTbl[i]=(int)std::round(q);
       };
-      min=FwdTbl[0];
-      max=FwdTbl[PSCALE-1];
+      fmin=FwdTbl[0];
+      fmax=FwdTbl[PSCALE-1];
       // 12-Bit
-      InvTbl=new int[dscale];
       for (int i=dmin;i<=dmax;i++)
       {
         double q=PSCALE/(1.0+exp(-double(i)/double(scale)));
-        InvTbl[i-dmin]=std::round(q);
+        InvTbl[i-dmin]=(int)std::round(q);
       };
-      Check();
-    }
-    ~LogDomain()
-    {
-      delete []InvTbl;
     }
     inline int Fwd(int p)
     {
@@ -57,7 +51,9 @@ static class LogDomain {
     }
   protected:
     int FwdTbl[PSCALE];
-    int *InvTbl;
-} myDomain;
+    int InvTbl[dscale];
+};
+
+inline LogDomain myDomain;
 
 #endif
