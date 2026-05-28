@@ -2,6 +2,7 @@
 #define GLOBAL_H
 
 //#include "windows.h"
+#include <cstdint>
 #include <iostream>
 #include <algorithm>
 #include <fstream>
