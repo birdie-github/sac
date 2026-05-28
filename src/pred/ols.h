@@ -1,9 +1,9 @@
 #ifndef OLS_H
 #define OLS_H
 
+#include <type_traits>
 #include "../common/utils.h"
 #include "../common/math.h"
-
 
 class OLS {
   public:
@@ -12,13 +12,17 @@ class OLS {
     void Update(double val);
     vec1D x;
   private:
-    slmath::Cholesky chol;
-    slmath::LDLT ldlt;
+    using Decomp = std::conditional_t<
+      SACCfg::USE_LDLT,
+      slmath::LDLT,
+      slmath::Cholesky
+    >;
+    Decomp decomp;
     vec1D w,b;
     vec2D mcov;
     int n,kmax,km;
     double lambda,nu;
-    double beta_pow,beta_add,w_decay;
+    double beta_pow,beta_add;
     RunSumGEO esum;
     double pred;
 };
