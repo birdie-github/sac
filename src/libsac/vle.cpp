@@ -7,7 +7,7 @@ p_laplace(32),
 lmixref(256,NMixLogistic(5)),lmixsig(256,NMixLogistic(3)),
 ssemix(2),
 msb(numsamples),
-maxbpn(maxbpn),numsamples(numsamples),lm(maxbpn)
+maxbpn(maxbpn),numsamples(numsamples)//,lm(maxbpn)
 //n_laplace(32),weights_laplace(2*n_laplace+1),
 {
   state=0;

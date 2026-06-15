@@ -81,7 +81,7 @@ class BitplaneCoder {
     uint32_t bmask[32];
     int maxbpn,bpn,numsamples,nrun,pestimate;
     uint32_t state;
-    StaticLaplaceModel lm;
+    //StaticLaplaceModel lm;
 };
 
 class Golomb {
